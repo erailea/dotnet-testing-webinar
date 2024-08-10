@@ -30,7 +30,18 @@ jobs:
     - name: Run tests and collect coverage
       run: |
         dotnet test --collect:"XPlat Code Coverage"
-        reportgenerator -reports:coverage.cobertura.xml -targetdir:coverage-report -reporttypes:Html
+
+    - name: Find latest coverage report
+      id: find-coverage
+      run: |
+        # Find the latest coverage report file path
+        COVERAGE_FILE=$(find $(pwd)/BookstoreAPI.Tests/TestResults -name "coverage.cobertura.xml" | sort | tail -n 1)
+        echo "Coverage report path: $COVERAGE_FILE"
+        echo "coverage-file=$COVERAGE_FILE" >> $GITHUB_ENV
+
+    - name: Generate coverage report
+      run: |
+        reportgenerator -reports:${{ env.coverage-file }} -targetdir:coverage-report -reporttypes:Html
 
     - name: Deploy coverage report to GitHub Pages
       uses: actions/upload-artifact@v3

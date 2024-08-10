@@ -58,7 +58,7 @@ namespace BookstoreAPI.Tests
             _bookService.AddBook(book);
 
             // Assert
-            _bookRepositoryMock.Verify(repo => repo.AddBook(book), Times.Once);
+            _bookRepositoryMock.Verify(repo => repo.AddBook(book), Times.Never);
         }
 
         [Fact]

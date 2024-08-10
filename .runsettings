@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollection>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat Code Coverage"
+        assemblyQualifiedName="CoverletCollector.Collector, CoverletCollector">
+        <Configuration>
+          <Exclude>
+            <ExcludeByFile>
+            </ExcludeByFile>
+          </Exclude>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollection>
+</RunSettings>

@@ -362,3 +362,5 @@ appsettings.*.json
 /Edutime.Test/TestResults/*
 .DS_Store
 Directory.Build.props
+
+coverage-report

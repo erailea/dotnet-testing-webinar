@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<BookDbContext>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddHttpClient<IExternalBookService, ExternalBookService>();
+builder.Services.AddHttpClient<IExternalBookHttpClient, ExternalBookHttpClient>();
 
 var app = builder.Build();
 
@@ -23,7 +23,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-app.Run();
+await app.RunAsync();
 
 [ExcludeFromCodeCoverage]
 public partial class Program { }

@@ -18,7 +18,7 @@ namespace BookstoreAPI.Repositories
 
         public IEnumerable<Book> GetAllBooks() => bookDbContext.Books;
 
-        public Book GetBookById(int id) => bookDbContext.Books.Find(b => b.Id == id);
+        public Book? GetBookById(int id) => bookDbContext.Books.Find(b => b.Id == id);
 
         public void AddBook(Book book)
         {
@@ -46,7 +46,7 @@ namespace BookstoreAPI.Repositories
             {
                 bookDbContext.Books.Remove(book);
             }
-            else throw new BookNotFoundException($"Book with id {book.Id} not found");
+            else throw new BookNotFoundException($"Book with id {id} not found");
         }
     }
 }

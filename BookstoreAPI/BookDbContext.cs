@@ -5,5 +5,5 @@ public class BookDbContext
     public BookDbContext(){
         Books = new List<Book>();
     }
-    public List<Book> Books { get; set; }
+    public List<Book>? Books { get; set; }
 }

@@ -3,25 +3,7 @@ using BookstoreAPI.Services;
 
 namespace BookstoreAPI.Tests
 {
-
-    public class MockHttpMessageHandler : HttpMessageHandler
-    {
-        private readonly HttpResponseMessage _responseMessage;
-
-        public MockHttpMessageHandler(HttpResponseMessage responseMessage)
-        {
-            _responseMessage = responseMessage;
-        }
-
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(_responseMessage);
-        }
-    }
-
-
-
-    public class ExternalBookServiceTests
+    public class ExternalBookHttpClientTests
     {
         [Fact]
         public async Task FetchBookDetailsAsync_ReturnsBook()
@@ -48,10 +30,10 @@ namespace BookstoreAPI.Tests
             var handler = new MockHttpMessageHandler(responseMessage);
             var httpClient = new HttpClient(handler);
 
-            var externalBookService = new ExternalBookService(httpClient);
+            var externalBookHttpClient = new ExternalBookHttpClient(httpClient);
 
             // Act
-            var book = await externalBookService.FetchBookDetailsAsync("1234567890");
+            var book = await externalBookHttpClient.FetchBookDetailsAsync("1234567890");
 
             // Assert
             Assert.NotNull(book);
@@ -69,10 +51,10 @@ namespace BookstoreAPI.Tests
             var handler = new MockHttpMessageHandler(responseMessage);
             var httpClient = new HttpClient(handler);
 
-            var externalBookService = new ExternalBookService(httpClient);
+            var externalBookHttpClient = new ExternalBookHttpClient(httpClient);
 
             // Act & Assert
-            await Assert.ThrowsAsync<HttpRequestException>(() => externalBookService.FetchBookDetailsAsync("1234567890"));
+            await Assert.ThrowsAsync<ExternalBookHttpClientException>(() => externalBookHttpClient.FetchBookDetailsAsync("1234567890"));
         }
     }
 }

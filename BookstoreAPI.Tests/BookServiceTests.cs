@@ -9,14 +9,14 @@ namespace BookstoreAPI.Tests
     public class BookServiceTests
     {
         private readonly Mock<IBookRepository> _bookRepositoryMock;
-        private readonly Mock<IExternalBookService> _externalBookServiceMock;
+        private readonly Mock<IExternalBookHttpClient> _externalBookHttpClientMock;
         private readonly BookService _bookService;
 
         public BookServiceTests()
         {
             _bookRepositoryMock = new Mock<IBookRepository>();
-            _externalBookServiceMock = new Mock<IExternalBookService>();
-            _bookService = new BookService(_bookRepositoryMock.Object, _externalBookServiceMock.Object);
+            _externalBookHttpClientMock = new Mock<IExternalBookHttpClient>();
+            _bookService = new BookService(_bookRepositoryMock.Object, _externalBookHttpClientMock.Object);
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace BookstoreAPI.Tests
             // Arrange
             var isbn = "1234567890";
             var book = new Book { Title = "External Book", ISBN = isbn };
-            _externalBookServiceMock.Setup(service => service.FetchBookDetailsAsync(isbn)).ReturnsAsync(book);
+            _externalBookHttpClientMock.Setup(service => service.FetchBookDetailsAsync(isbn)).ReturnsAsync(book);
 
             // Act
             var result = await _bookService.GetBookDetailsFromExternalApiAsync(isbn);

@@ -45,16 +45,16 @@ namespace BookstoreAPI.Controllers
         {
             try
             {
-                var existingBook = _bookService.GetBookById(id);
-                if (existingBook == null)
+                if (id != book.Id)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
+                _bookService.UpdateBook(book);
                 return NoContent();
             }
             catch (BookNotFoundException)
             {
-                return BadRequest();
+                return NotFound();
             }
             catch
             {
@@ -83,12 +83,22 @@ namespace BookstoreAPI.Controllers
         [HttpGet("external/{isbn}")]
         public async Task<ActionResult<Book>> GetBookDetailsFromExternalApiAsync(string isbn)
         {
-            var book = await _bookService.GetBookDetailsFromExternalApiAsync(isbn);
-            if (book == null)
+            try
             {
-                return NotFound();
+                var book = await _bookService.GetBookDetailsFromExternalApiAsync(isbn);
+                if (book == null)
+                {
+                    return NotFound();
+                }
+                return Ok(book);
             }
-            return Ok(book);
+            catch (ExternalBookHttpClientException e)
+            {
+                return StatusCode(500, new
+                {
+                    message = e.Message
+                });
+            }
         }
     }
 }

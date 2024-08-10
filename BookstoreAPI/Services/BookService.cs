@@ -6,17 +6,17 @@ namespace BookstoreAPI.Services
     public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
-        private readonly IExternalBookService _externalBookService;
+        private readonly IExternalBookHttpClient _externalBookHttpClient;
 
-        public BookService(IBookRepository bookRepository, IExternalBookService externalBookService)
+        public BookService(IBookRepository bookRepository, IExternalBookHttpClient externalBookHttpClient)
         {
             _bookRepository = bookRepository;
-            _externalBookService = externalBookService;
+            _externalBookHttpClient = externalBookHttpClient;
         }
 
         public IEnumerable<Book> GetAllBooks() => _bookRepository.GetAllBooks();
 
-        public Book GetBookById(int id) => _bookRepository.GetBookById(id);
+        public Book? GetBookById(int id) => _bookRepository.GetBookById(id);
 
         public void AddBook(Book book) => _bookRepository.AddBook(book);
 
@@ -24,9 +24,9 @@ namespace BookstoreAPI.Services
 
         public void DeleteBook(int id) => _bookRepository.DeleteBook(id);
 
-        public async Task<Book> GetBookDetailsFromExternalApiAsync(string isbn)
+        public async Task<Book?> GetBookDetailsFromExternalApiAsync(string isbn)
         {
-            return await _externalBookService.FetchBookDetailsAsync(isbn);
+            return await _externalBookHttpClient.FetchBookDetailsAsync(isbn);
         }
     }
 }

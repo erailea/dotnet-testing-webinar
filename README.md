@@ -11,3 +11,5 @@ Generate code coverage report:
 ```bash
 reportgenerator --settings coverlet.runsettings -reports:{{coverage.cobertura.xml file path}} -targetdir:coverage-report -reporttypes:Html
 ```
+
+[Coverage Report](https://erailea.github.io/dotnet-testing-webinar/)
